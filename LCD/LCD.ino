@@ -1,6 +1,9 @@
 #include <Wire.h> 
 #include <LiquidCrystal_I2C.h>
 
+const int trigPin = 9;
+const int echoPin = 10;
+
 int timer = 0;
 const int TIMER_INCREMENTS = 200;
 
@@ -18,6 +21,10 @@ void setup()
   lcd.setCursor(1,1);
   lcd.print("konichiwaa");
   delay(200);
+
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  Serial.begin(9600);
 }
 
 void loop() {
@@ -31,4 +38,14 @@ void loop() {
   lcd.print(timer);
   timer +=TIMER_INCREMENTS;
   delay(TIMER_INCREMENTS);
+
+  long duration = 0;
+digitalWrite(trigPin, LOW);
+delayMicroseconds(5);
+digitalWrite(trigPin, HIGH);
+delayMicroseconds(10);
+digitalWrite(trigPin, LOW);
+
+duration = pulseIn(echoPin, HIGH);
+Serial.println(duration);
 }
